@@ -1,3 +1,6 @@
+# set up IDE-like tmux panes (run this within tmux)
+alias ide="tmux send-keys \"xf\" C-m && tmux split-window -h && tmux send-keys \"ct\" C-m && tmux split-window -v && tmux send-keys \"python\" C-m"
+
 # interactively search for package documentation #
 alias findman="compgen -c | fzf | xargs man"
 
