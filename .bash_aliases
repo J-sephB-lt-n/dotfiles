@@ -37,3 +37,12 @@ alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -iv"
 alias mkd="mkdir -pv"
+
+# git aliases #
+ga="git add"
+gd="git diff"
+gdn="git diff --name-only"
+gp="git push"
+gpom="git pull origin main --no-rebase"
+gst="git status"
+czc="cz commit"
