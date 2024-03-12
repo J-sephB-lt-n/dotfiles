@@ -40,6 +40,7 @@ alias mkd="mkdir -pv"
 
 # git aliases #
 alias ga="git add"
+alias gch="git checkout"
 alias gd="git diff"
 alias gdn="git diff --name-only"
 alias gp="git push"
