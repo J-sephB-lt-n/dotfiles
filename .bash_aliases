@@ -19,6 +19,7 @@ alias crg="grep -rI --exclude-dir venv --exclude-dir __pycache__"
 # quick navigation
 alias ..="cd .."
 alias ...="cd ../.."
+alias cl="clear"
 
 # see my public-facing IP address #
 alias myip="curl ipinfo.io/ip"
@@ -35,11 +36,13 @@ lss3 () {
 # make file overwriting less likely
 alias cp="cp -iv"
 alias mv="mv -iv"
-alias rm="rm -iv"
+alias rm="rm -v"
 alias mkd="mkdir -pv"
 
 # git aliases #
 alias ga="git add"
+alias ga.="git add ."
+alias gb="git branch"
 alias gch="git checkout"
 alias gd="git diff"
 alias gdn="git diff --name-only"
