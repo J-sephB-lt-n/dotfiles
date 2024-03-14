@@ -1,5 +1,10 @@
+# -- TMUX -- 
 # set up IDE-like tmux panes (run this within tmux)
 alias ide="tmux send-keys \"xf\" C-m && tmux split-window -h && tmux send-keys \"ct | less\" C-m && tmux split-window -v && tmux send-keys \"python\" C-m && tmux select-pane -L"
+alias trpu="tmux resize-pane -U"
+alias trpd="tmux resize-pane -D"
+alias trpl="tmux resize-pane -L"
+alias trpr="tmux resize-pane -R"
 
 # interactively search for package documentation #
 alias findman="compgen -c | fzf | xargs man"
