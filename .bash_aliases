@@ -55,3 +55,17 @@ alias gp="git push"
 alias gpom="git pull origin main --no-rebase"
 alias gst="git status"
 alias czc="cz commit"
+
+# example usage: uuid 4
+uuid () {
+    python -c "import uuid; print(uuid.uuid$1().hex)" 
+}
+#alias uuid="python -c \"import uuid; import sys; print(uuid.uuid$1().hex)\""
+
+# string encoding/decoding 
+hex2string() {
+    python -c "import binascii; print(binascii.unhexlify('$1').decode('utf-8'))"
+}
+string2hex() {
+    python -c "import binascii; print(binascii.hexlify('$1'.encode('utf-8')).decode('utf-8'))"
+}
