@@ -29,17 +29,16 @@ std () {
     # save directory path to remember (under custom name)
     export SETDIR_$1=$(pwd)
 }
-gtdb () {
+gtd () {
     # get remembered directory path (by custom name)
-    # only works on bash
     saved_dir=SETDIR_$1
-    cd ${!saved_dir} # will not work on zsh (only bash)
-}
-gtdz () {
-    # get remembered directory path (by custom name)
-    # only works on zsh
-    saved_dir=SETDIR_$1
-    cd ${(P)saved_dir} # will not work on bash (only zsh)
+    if [ $SHELL = "/bin/zsh" ]; then
+        cd ${(P)saved_dir}   
+    elif [ $SHELL = "/bin/bash" ]; then
+        cd ${!saved_dir} 
+    else
+        echo "ERROR: shell '$SHELL' not supported" 
+    fi
 }
 
 # see my public-facing IP address #
