@@ -40,6 +40,10 @@ gtd () {
         echo "ERROR: shell '$SHELL' not supported" 
     fi
 }
+lsd () {
+    # list remembered directory paths
+    env | grep "^SETDIR_" | cut -c 8-
+}
 
 # see my public-facing IP address #
 alias myip="curl ipinfo.io/ip"
@@ -68,6 +72,7 @@ alias gd="git diff"
 alias gdn="git diff --name-only"
 alias gp="git push"
 alias gpom="git pull origin main --no-rebase"
+alias grs.="git restore --staged ."
 alias gst="git status"
 alias czc="cz commit"
 
