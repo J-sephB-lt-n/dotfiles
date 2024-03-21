@@ -17,6 +17,7 @@ alias xf="find . -type f -not -path '*/venv/*' -not -path '*/*cache*/*' -not -pa
 
 # tree view of current folder (and subfolders) excluding clutter # 
 alias ct="tree -a -I __pycache__ -I venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache"
+alias clct="clear && ct"
 
 # clean recursive grep (ignores certain folders) #
 alias crg="grep -rI --exclude-dir venv --exclude-dir __pycache__ --exclude-dir node_modules --exclude-dir .mypy_cache"
@@ -27,22 +28,42 @@ alias ...="cd ../.."
 alias cl="clear"
 std () {
     # save directory path to remember (under custom name)
-    export SETDIR_$1=$(pwd)
+    if [[ "$TERM" =~ "screen".* ]]; then
+        # if we are in TMUX
+        echo "saving path in TMUX env"
+        tmux setenv -g SETDIR_$1 $(pwd)
+    else
+        echo "saving path in shell env"
+        export SETDIR_$1=$(pwd)
+    fi
 }
 gtd () {
     # get remembered directory path (by custom name)
-    saved_dir=SETDIR_$1
-    if [ $SHELL = "/bin/zsh" ]; then
-        cd ${(P)saved_dir}   
-    elif [ $SHELL = "/bin/bash" ]; then
-        cd ${!saved_dir} 
+    if [[ "$TERM" =~ "screen".* ]]; then
+        echo "fetching path from TMUX env"
+        saved_dir=$(tmux showenv -g | grep SETDIR_$1 | sed "s:^.*=::")
     else
-        echo "ERROR: shell '$SHELL' not supported" 
+        echo "fetching path from shell env"
+        saved_dir=$(env | grep SETDIR_$1 | sed "s:^.*=::")
     fi
+    cd $(echo $saved_dir)
+    #if [ $SHELL = "/bin/zsh" ]; then
+    #    cd ${(P)saved_dir}   
+    #elif [ $SHELL = "/bin/bash" ]; then
+    #    cd ${!saved_dir} 
+    #else
+    #    echo "ERROR: shell '$SHELL' not supported" 
+    #fi
 }
 lsd () {
     # list remembered directory paths
-    env | grep "^SETDIR_" | cut -c 8-
+    if [[ "$TERM" =~ "screen".* ]]; then
+        echo "listing saved paths in TMUX env"
+        tmux showenv -g | grep "^SETDIR_" | cut -c 8-
+    else
+        echo "listing saved paths in shell env"
+        env | grep "^SETDIR_" | cut -c 8-
+    fi
 }
 
 # see my public-facing IP address #
