@@ -65,7 +65,16 @@ lsd () {
         env | grep "^SETDIR_" | cut -c 8-
     fi
 }
-
+rm_setdir () {
+    # remove remembered directory path by name
+    if [[ "$TERM" =~ "screen".* ]]; then
+        echo "removing saved path '$1' from TMUX env"
+        tmux setenv -g -u SETDIR_$1
+    else
+        echo "removing saved path '$1' from shell env"
+        unset SETDIR_$1 
+    fi
+}
 # see my public-facing IP address #
 alias myip="curl ipinfo.io/ip"
 
