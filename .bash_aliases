@@ -18,6 +18,7 @@ alias xf="find . -type f -not -path '*/venv/*' -not -path '*/*cache*/*' -not -pa
 # tree view of current folder (and subfolders) excluding clutter # 
 alias ct="tree -a -I __pycache__ -I venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache"
 alias clct="clear && ct"
+alias clctl="clear && ct | less"
 
 # clean recursive grep (ignores certain folders) #
 alias crg="grep -rI --exclude-dir venv --exclude-dir __pycache__ --exclude-dir node_modules --exclude-dir .mypy_cache"
