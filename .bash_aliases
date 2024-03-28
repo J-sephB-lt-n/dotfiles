@@ -6,6 +6,18 @@ alias trpd="tmux resize-pane -D"
 alias trpl="tmux resize-pane -L"
 alias trpr="tmux resize-pane -R"
 
+timer () {
+    if [[ -z "${TIMER_START}" ]]; then
+        export TIMER_START=$EPOCHREALTIME
+    else
+        seconds_elapsed=$(echo "$EPOCHREALTIME - $TIMER_START" | bc)
+        minutes_elapsed=$(echo "scale=2; $seconds_elapsed / 60" | bc)
+        echo "minutes elapsed: $minutes_elapsed"
+        echo "seconds elapsed: $seconds_elapsed"
+        unset TIMER_START
+    fi 
+}
+
 # interactively search for package documentation #
 alias findman="compgen -c | fzf | xargs man"
 
@@ -112,10 +124,20 @@ uuid () {
     python -c "import uuid; print(uuid.uuid$1().hex)" 
 }
 
-# string encoding/decoding 
-hex2string() {
-    python -c "import binascii; print(binascii.unhexlify('$1').decode('utf-8'))"
+# task timer #
+# state is stored in /var/tmp/
+tmr_go () { # start specific timer
+    # e.g. tmr_go work -> "started timer [work]"
 }
-string2hex() {
-    python -c "import binascii; print(binascii.hexlify('$1'.encode('utf-8')).decode('utf-8'))"
+tmr_stop () { # stop specific timer
+    # e.g. tmr_stop work -> "stopped timer [work]. 69 minutes elapsed."
+}
+tmr_see () { # view specific timer
+    # e.g. tmr_see work
+}
+tmr_ls () { # list all timers
+    # e.g. tmr_ls
+}
+tmr_delete () {
+    # e.g. tmr_delete work -> "timer [work] deleted"
 }
