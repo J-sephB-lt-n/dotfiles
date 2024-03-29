@@ -124,20 +124,77 @@ uuid () {
     python -c "import uuid; print(uuid.uuid$1().hex)" 
 }
 
-# task timer #
-# state is stored in /var/tmp/
+# TASK TIMER #
+# timer state is stored in /var/tmp/task_timers/
+if [[ ! -e /var/tmp/task_timers/ ]]; then
+    echo "creating directory /var/tmp/task_timers/"
+    mkdir /var/tmp/task_timers/
+fi
 tmr_go () { # start specific timer
     # e.g. tmr_go work -> "started timer [work]"
+    if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
+        echo -n $EPOCHREALTIME > /var/tmp/task_timers/$1.tmr
+        echo "started timer [$1]"
+    else
+        latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
+        n_entries=$(awk "{print NF}" <<< "$latest_entry")
+        if [[ n_entries -eq 1 ]]; then
+            echo "timer [$1] is already running"
+        else
+            echo -n $EPOCHREALTIME >> /var/tmp/task_timers/$1.tmr
+            echo "started timer [$1]"
+        fi
+    fi
 }
 tmr_stop () { # stop specific timer
     # e.g. tmr_stop work -> "stopped timer [work]. 69 minutes elapsed."
+    if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
+       echo "timer [$1] does not exist"
+    else
+        latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
+        n_entries=$(awk "{print NF}" <<< "$latest_entry")
+        if [[ n_entries -eq 1 ]]; then
+            echo " ${EPOCHREALTIME}" >> /var/tmp/task_timers/$1.tmr
+            echo "stopped timer [$1]"
+        else
+            echo "timer [$1] is already stopped"
+        fi
+    fi
 }
-tmr_see () { # view specific timer
-    # e.g. tmr_see work
+tmr_view () { # view specific timer
+    # e.g. tmr_view work
+    if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
+        echo "timer [$1] does not exist"
+    else
+        echo "--Summary of Timer [$1]--"
+        cat /var/tmp/task_timers/$1.tmr | while read line || [[ -n $line ]];
+        do
+            n_entries=$(awk "{print NF}" <<< "$line")
+            if [[ $n_entries -eq 2 ]]; then
+               start_utc=$(echo $line | cut -d " " -f 1)
+               end_utc=$(echo $line | cut -d " " -f 2)
+               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
+               echo -n " --> "
+               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $end_utc) 
+               echo ""
+            else
+               start_utc=$(echo $line | cut -d " " -f 1)
+               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
+               echo -n " --> "
+               echo "<currently running>"
+            fi
+        done
+        echo "TOTAL TIME: TODO"
+    fi
 }
 tmr_ls () { # list all timers
-    # e.g. tmr_ls
+    ls -1 /var/tmp/task_timers/
 }
 tmr_delete () {
-    # e.g. tmr_delete work -> "timer [work] deleted"
+    if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
+        echo "timer [$1] does not exist"
+    else
+        rm /var/tmp/task_timers/$1.tmr
+        echo "deleted timer [$1]"
+    fi
 }
