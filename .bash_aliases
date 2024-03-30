@@ -153,7 +153,7 @@ tmr_stop () { # stop specific timer
     else
         latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
         n_entries=$(awk "{print NF}" <<< "$latest_entry")
-        if [[ n_entries -eq 1 ]]; then
+        if [[ $n_entries -eq 1 ]]; then
             echo " ${EPOCHREALTIME}" >> /var/tmp/task_timers/$1.tmr
             echo "stopped timer [$1]"
         else
@@ -188,7 +188,22 @@ tmr_view () { # view specific timer
     fi
 }
 tmr_ls () { # list all timers
-    ls -1 /var/tmp/task_timers/
+    echo "--ALL TIMERS--"
+    n_timers=$(find /var/tmp/task_timers/ -type f -name "*.tmr" | wc -l)
+    if [[ $n_timers -eq 0 ]]; then
+        echo "There are no timers"
+    else
+        for timer_filepath in /var/tmp/task_timers/*.tmr; do
+            timer_name=$(echo $timer_filepath | sed "s/\/var\/tmp\/task_timers\/\(.*\).tmr$/\1/")
+            latest_entry=$(tail -n 1 $timer_filepath)
+            n_entries=$(awk "{print NF}" <<< "$latest_entry")
+            if [[ $n_entries -eq 1 ]]; then
+                echo "[$timer_name] <currently running>"
+            else
+                echo "[$timer_name]"
+            fi
+        done
+    fi 
 }
 tmr_delete () {
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
