@@ -7,6 +7,7 @@ alias trpl="tmux resize-pane -L"
 alias trpr="tmux resize-pane -R"
 
 timer () {
+    # example usage: timer && sleep 5 && timer
     if [[ -z "${TIMER_START}" ]]; then
         export TIMER_START=$EPOCHREALTIME
     else
@@ -130,8 +131,21 @@ if [[ ! -e /var/tmp/task_timers/ ]]; then
     echo "creating directory /var/tmp/task_timers/"
     mkdir /var/tmp/task_timers/
 fi
+function seconds_to_human_readable {
+  # from https://unix.stackexchange.com/questions/27013/displaying-seconds-as-days-hours-mins-seconds
+  local T=$1
+  local D=$((T/60/60/24))
+  local H=$((T/60/60%24))
+  local M=$((T/60%60))
+  local S=$((T%60))
+  (( $D > 0 )) && printf '%d days ' $D
+  (( $H > 0 )) && printf '%d hours ' $H
+  (( $M > 0 )) && printf '%d minutes ' $M
+  (( $D > 0 || $H > 0 || $M > 0 )) 
+  printf '%d seconds\n' $S
+}
 tmr_go () { # start specific timer
-    # e.g. tmr_go work -> "started timer [work]"
+    # e.g. tmr_go task1
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
         echo -n $EPOCHREALTIME > /var/tmp/task_timers/$1.tmr
         echo "started timer [$1]"
@@ -147,7 +161,7 @@ tmr_go () { # start specific timer
     fi
 }
 tmr_stop () { # stop specific timer
-    # e.g. tmr_stop work -> "stopped timer [work]. 69 minutes elapsed."
+    # e.g. tmr_stop task1
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
        echo "timer [$1] does not exist"
     else
@@ -162,7 +176,7 @@ tmr_stop () { # stop specific timer
     fi
 }
 tmr_view () { # view specific timer
-    # e.g. tmr_view work
+    # e.g. tmr_view task1
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
         echo "timer [$1] does not exist"
     else
@@ -176,7 +190,10 @@ tmr_view () { # view specific timer
                echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
                echo -n " --> "
                echo -n $(perl -le 'print scalar localtime $ARGV[0]' $end_utc) 
-               echo ""
+               n_seconds=$(echo "$end_utc - $start_utc" | bc)
+               echo -n " ("
+               echo -n $(seconds_to_human_readable ${n_seconds})
+               echo ")"
             else
                start_utc=$(echo $line | cut -d " " -f 1)
                echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
@@ -206,6 +223,7 @@ tmr_ls () { # list all timers
     fi 
 }
 tmr_delete () {
+    # e.g. tmr_delete task1
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
         echo "timer [$1] does not exist"
     else
