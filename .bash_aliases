@@ -131,7 +131,7 @@ if [[ ! -e /var/tmp/task_timers/ ]]; then
     echo "creating directory /var/tmp/task_timers/"
     mkdir /var/tmp/task_timers/
 fi
-function seconds_to_human_readable {
+seconds_to_human_readable () {
   # from https://unix.stackexchange.com/questions/27013/displaying-seconds-as-days-hours-mins-seconds
   local T=$1
   local D=$((T/60/60/24))
@@ -180,28 +180,39 @@ tmr_view () { # view specific timer
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
         echo "timer [$1] does not exist"
     else
+        echo ""
         echo "--Summary of Timer [$1]--"
+        echo ""
+        total_n_seconds=0
         cat /var/tmp/task_timers/$1.tmr | while read line || [[ -n $line ]];
         do
             n_entries=$(awk "{print NF}" <<< "$line")
             if [[ $n_entries -eq 2 ]]; then
                start_utc=$(echo $line | cut -d " " -f 1)
                end_utc=$(echo $line | cut -d " " -f 2)
-               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
+               echo -n "* ["$(perl -le 'print scalar localtime $ARGV[0]' $start_utc)"]"
                echo -n " --> "
-               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $end_utc) 
-               n_seconds=$(echo "$end_utc - $start_utc" | bc)
-               echo -n " ("
+               echo "["$(perl -le 'print scalar localtime $ARGV[0]' $end_utc)"]" 
+               n_seconds=$(echo "scale=10; $end_utc - $start_utc" | bc)
+               total_n_seconds=$(echo "scale=10; $total_n_seconds + $n_seconds" | bc)
+               echo -n "       ("
                echo -n $(seconds_to_human_readable ${n_seconds})
                echo ")"
             else
                start_utc=$(echo $line | cut -d " " -f 1)
-               echo -n $(perl -le 'print scalar localtime $ARGV[0]' $start_utc) 
+               end_utc=$EPOCHREALTIME
+               echo -n "* ["$(perl -le 'print scalar localtime $ARGV[0]' $start_utc)"]" 
                echo -n " --> "
                echo "<currently running>"
+               n_seconds=$(echo "scale=10; $end_utc - $start_utc" | bc)
+               total_n_seconds=$(echo "scale=10; $total_n_seconds + $n_seconds" | bc)
+               echo -n "       ("
+               echo -n $(seconds_to_human_readable ${n_seconds})
+               echo ")"
             fi
         done
-        echo "TOTAL TIME: TODO"
+        echo ""
+        echo "TOTAL TIME: "$(seconds_to_human_readable ${total_n_seconds})
     fi
 }
 tmr_ls () { # list all timers
