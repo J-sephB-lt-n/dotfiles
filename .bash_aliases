@@ -133,7 +133,7 @@ if [[ ! -e /var/tmp/task_timers/ ]]; then
 fi
 seconds_to_human_readable () {
   # from https://unix.stackexchange.com/questions/27013/displaying-seconds-as-days-hours-mins-seconds
-  local T=$1
+  local T=$(awk -v num=$1 'BEGIN {printf "%.0f", num}')
   local D=$((T/60/60/24))
   local H=$((T/60/60%24))
   local M=$((T/60%60))
