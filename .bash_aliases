@@ -193,7 +193,7 @@ tmr_view () { # view specific timer
         echo "--Summary of Timer [$1]--"
         echo ""
         total_n_seconds=0
-        cat /var/tmp/task_timers/$1.tmr | while read line || [[ -n $line ]];
+        while read line || [[ -n $line ]];
         do
             n_entries=$(echo $line | awk -F '|' '{print NF}')
             if [[ $n_entries -eq 3 ]]; then
@@ -231,7 +231,7 @@ tmr_view () { # view specific timer
                echo -n $(seconds_to_human_readable ${n_seconds})
                echo ")"
             fi
-        done
+        done <<< $(cat /var/tmp/task_timers/$1.tmr) 
         echo ""
         echo "TOTAL TIME: "$(seconds_to_human_readable ${total_n_seconds})
     fi
