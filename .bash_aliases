@@ -208,8 +208,8 @@ tmr_view () { # view specific timer
                else
                    echo "       <no timer description>"
                fi
-               n_seconds=$(echo "scale=10; $end_utc - $start_utc" | bc)
-               total_n_seconds=$(echo "scale=10; $total_n_seconds + $n_seconds" | bc)
+               n_seconds=$(echo "($end_utc - $start_utc)/1" | bc)
+               total_n_seconds=$(echo "$total_n_seconds + $n_seconds" | bc)
                echo -n "       ("
                echo -n $(seconds_to_human_readable ${n_seconds})
                echo ")"
@@ -225,8 +225,8 @@ tmr_view () { # view specific timer
                else
                    echo "       <no timer description>"
                fi
-               n_seconds=$(echo "scale=10; $end_utc - $start_utc" | bc)
-               total_n_seconds=$(echo "scale=10; $total_n_seconds + $n_seconds" | bc)
+               n_seconds=$(echo "($end_utc - $start_utc)/1" | bc)
+               total_n_seconds=$(echo "$total_n_seconds + $n_seconds" | bc)
                echo -n "       ("
                echo -n $(seconds_to_human_readable ${n_seconds})
                echo ")"
