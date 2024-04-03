@@ -55,10 +55,10 @@ gtd () {
     # get remembered directory path (by custom name)
     if [[ "$TERM" =~ "screen".* ]]; then
         echo "fetching path from TMUX env"
-        saved_dir=$(tmux showenv -g | grep SETDIR_$1 | sed "s:^.*=::")
+        saved_dir=$(tmux showenv -g | grep "SETDIR_$1=" | sed "s:^.*=::")
     else
         echo "fetching path from shell env"
-        saved_dir=$(env | grep SETDIR_$1 | sed "s:^.*=::")
+        saved_dir=$(env | grep "SETDIR_$1=" | sed "s:^.*=::")
     fi
     cd $(echo $saved_dir)
     #if [ $SHELL = "/bin/zsh" ]; then
