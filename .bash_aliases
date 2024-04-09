@@ -125,6 +125,10 @@ uuid () {
     python -c "import uuid; print(uuid.uuid$1().hex)" 
 }
 
+hex2string () {
+    echo $1 | xxd -r -p
+}
+
 # TASK TIMER #
 # timer state is stored in /var/tmp/task_timers/
 if [[ ! -e /var/tmp/task_timers/ ]]; then
