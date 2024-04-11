@@ -6,6 +6,8 @@ alias trpd="tmux resize-pane -D"
 alias trpl="tmux resize-pane -L"
 alias trpr="tmux resize-pane -R"
 
+alias lmsys="python -m webbrowser https://chat.lmsys.org/"
+
 timer () {
     # example usage: timer && sleep 5 && timer
     if [[ -z "${TIMER_START}" ]]; then
