@@ -1,5 +1,7 @@
 alias ll="ls -lah"
 
+alias random_n_lines="shuf -n" # e.g. random_n_lines 10 myfile.txt
+
 # -- TMUX -- 
 # set up IDE-like tmux panes (run this within tmux)
 alias ide="tmux send-keys \"xf\" C-m && tmux split-window -h && tmux send-keys \"ct | less\" C-m && tmux split-window -v && tmux send-keys \"python\" C-m && tmux select-pane -L"
