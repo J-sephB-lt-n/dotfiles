@@ -1,4 +1,5 @@
 alias ll="ls -lah"
+alias lls="ls -lahS"
 
 alias random_n_lines="shuf -n" # e.g. random_n_lines 10 myfile.txt
 
