@@ -1,7 +1,11 @@
+#!/bin/bash
+
 # USAGE: 
 # $ sudo wget https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/setup_joes_dev_environment.sh
 # $ sudo bash setup_joes_dev_environment.sh
 # $ rm setup_joes_dev_environment.sh
+
+set -e
 
 apt-get update
 apt-get install -y --no-install-recommends \
