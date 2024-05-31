@@ -17,4 +17,6 @@ for script_name in "gpt.py";
 echo 'export PATH=$PATH:~/cli_scripts' >> ~/.bashrc
 echo 'chmod +x ~/cli_scripts/*' >> ~/.bashrc
 
+wget --directory-prefix=~ https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.tmux.conf
+
 source ~/.bashrc
