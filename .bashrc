@@ -4,3 +4,6 @@ source .bash_aliases
 echo $(uname -a)
 echo "SHELL is '${SHELL}'"
 
+# add files/folders to PATH:
+export PATH=$PATH:~/cli_scripts 
+chmod +x ~/cli_scripts/*
