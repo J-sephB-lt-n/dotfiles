@@ -18,8 +18,8 @@ timer () {
     if [[ -z "${TIMER_START}" ]]; then
         export TIMER_START=$EPOCHREALTIME
     else
-        seconds_elapsed=$(echo "$EPOCHREALTIME - $TIMER_START" | bc)
-        minutes_elapsed=$(echo "scale=2; $seconds_elapsed / 60" | bc)
+        local seconds_elapsed=$(echo "$EPOCHREALTIME - $TIMER_START" | bc)
+        local minutes_elapsed=$(echo "scale=2; $seconds_elapsed / 60" | bc)
         echo "minutes elapsed: $minutes_elapsed"
         echo "seconds elapsed: $seconds_elapsed"
         unset TIMER_START
@@ -62,10 +62,10 @@ gtd () {
     # get remembered directory path (by custom name)
     if [[ "$TERM" =~ "screen".* ]]; then
         echo "fetching path from TMUX env"
-        saved_dir=$(tmux showenv -g | grep "SETDIR_$1=" | sed "s:^.*=::")
+        local saved_dir=$(tmux showenv -g | grep "SETDIR_$1=" | sed "s:^.*=::")
     else
         echo "fetching path from shell env"
-        saved_dir=$(env | grep "SETDIR_$1=" | sed "s:^.*=::")
+        local saved_dir=$(env | grep "SETDIR_$1=" | sed "s:^.*=::")
     fi
     cd $(echo $saved_dir)
     #if [ $SHELL = "/bin/zsh" ]; then
@@ -158,20 +158,20 @@ seconds_to_human_readable () {
 }
 tmr_go () { # start specific timer
     # e.g. tmr_go task1
-    timer_description=$2
+    local timer_description=$2
     if [[ $timer_description == *"|"* ]]; then
         echo "ERROR: timer description may not contain pipe symbol"
         return 0
     fi
     if [[ -z "${timer_description}" ]]; then
-       timer_description="no_description"
+       local timer_description="no_description"
     fi
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
         echo -n "${timer_description}|${EPOCHREALTIME}" > /var/tmp/task_timers/$1.tmr
         echo "started timer [$1]"
     else
-        latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
-        n_entries=$(echo $latest_entry | awk -F '|' '{print NF}')
+        local latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
+        local n_entries=$(echo $latest_entry | awk -F '|' '{print NF}')
         #n_entries=$(awk "{print NF}" <<< "$latest_entry")
         if [[ n_entries -eq 2 ]]; then
             echo "timer [$1] is already running"
@@ -186,8 +186,8 @@ tmr_stop () { # stop specific timer
     if [[ ! -f /var/tmp/task_timers/$1.tmr ]]; then
        echo "timer [$1] does not exist"
     else
-        latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
-        n_entries=$(echo $latest_entry | awk -F '|' '{print NF}')
+        local latest_entry=$(tail -n 1 /var/tmp/task_timers/$1.tmr)
+        local n_entries=$(echo $latest_entry | awk -F '|' '{print NF}')
         if [[ $n_entries -eq 2 ]]; then
             echo "|${EPOCHREALTIME}" >> /var/tmp/task_timers/$1.tmr
             echo "stopped timer [$1]"
@@ -204,7 +204,7 @@ tmr_view () { # view specific timer
         echo ""
         echo "--Summary of Timer [$1]--"
         echo ""
-        total_n_seconds=0
+        local total_n_seconds=0
         while read line || [[ -n $line ]];
         do
             n_entries=$(echo $line | awk -F '|' '{print NF}')
@@ -274,4 +274,29 @@ tmr_delete () {
         rm /var/tmp/task_timers/$1.tmr
         echo "deleted timer [$1]"
     fi
+}
+
+gpt () {
+	local prompt=$1
+	local model_name="${2:-gpt-4o}"
+	local max_output_tokens="${3:-500}"
+	local temperature="${4:-0}"
+	local python_code="
+import openai
+openai_client = openai.OpenAI()
+llm_chat = openai_client.chat.completions.create(
+    model='${model_name}',
+    temperature=${temperature},
+    messages=[
+        {
+            'role': 'user',
+            'content': '${prompt}'        
+		},
+	],
+   	max_tokens=${max_output_tokens},
+)
+print(llm_chat.choices[0].message.content)
+"
+	echo $python_code
+	python -c $python_code
 }
