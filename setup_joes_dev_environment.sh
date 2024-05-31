@@ -8,10 +8,13 @@ apt-get install -y --no-install-recommends \
     bc fzf htop tmux tree vim wget
 
 wget --directory-prefix=~ https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.bash_aliases
-echo "source ~/.bash_aliases" >> ~/.bashrc
+echo 'source ~/.bash_aliases' >> ~/.bashrc
 wget --directory-prefix=~ https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.vimrc  
 
 mkdir ~/cli_scripts
 for script_name in "gpt.py"; 
     wget --directory-prefix=~/cli_scripts https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/cli_scripts/$script_name
+echo 'export PATH=$PATH:~/cli_scripts' >> ~/.bashrc
+echo 'chmod +x ~/cli_scripts/*' >> ~/.bashrc
 
+source ~/.bashrc
