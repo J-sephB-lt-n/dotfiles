@@ -16,8 +16,8 @@ for script_name in "gpt.py";
 do
     wget --directory-prefix=~/cli_scripts https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/cli_scripts/$script_name
 done
-echo 'export PATH=$PATH:~/cli_scripts' >> ~/.bashrc
-echo 'chmod +x ~/cli_scripts/*' >> ~/.bashrc
+echo 'export PATH=$PATH:~/cli_scripts' >> .bashrc
+echo 'chmod +x ~/cli_scripts/*' >> .bashrc
 
 wget --directory-prefix=~ https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.tmux.conf
 
