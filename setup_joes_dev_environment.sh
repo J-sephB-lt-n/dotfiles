@@ -20,8 +20,8 @@ for script_name in "gpt.py";
 do
     wget -O ~/cli_tools/$script_name https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/cli_tools/$script_name
 done
-echo 'export PATH=$PATH:~/cli_tools' >> ~.bashrc
-echo 'chmod +x ~/cli_tools/*' >> ~.bashrc
+echo 'export PATH=$PATH:~/cli_tools' >> ~/.bashrc
+echo 'chmod +x ~/cli_tools/*' >> ~/.bashrc
 
 wget -O ~/.tmux.conf https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.tmux.conf
 
