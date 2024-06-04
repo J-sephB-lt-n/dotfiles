@@ -10,7 +10,7 @@ set -e
 
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-    bc fzf htop python-is-python3 tmux tree vim wget
+    bc fzf htop python3-pip python-is-python3 tmux tree vim wget
 
 wget -O ~/.bash_aliases https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.bash_aliases
 echo 'source ~/.bash_aliases' >> ~/.bashrc
