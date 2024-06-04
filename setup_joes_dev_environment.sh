@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # USAGE: 
-# $ sudo wget https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/setup_joes_dev_environment.sh
-# $ sudo bash setup_joes_dev_environment.sh
+# $ wget https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/setup_joes_dev_environment.sh
+# $ bash setup_joes_dev_environment.sh
 # $ rm setup_joes_dev_environment.sh
 
 set -e
 
-apt-get update
-apt-get install -y --no-install-recommends \
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends \
     bc fzf htop tmux tree vim wget
 
 wget -O ~/.bash_aliases https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.bash_aliases
