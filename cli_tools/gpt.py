@@ -3,11 +3,11 @@
 A CLI interface to openAI models
 
 To make this script available everywhere:
-    1. Put this script into ~/cli_scripts/gpt.py
+    1. Put this script into ~/cli_tools/gpt.py
     2. Add the following lines to the bottom of your run commands file
         (e.g. .bashrc or .zshrc):
-        export PATH=$PATH:~/cli_scripts
-        chmod +x ~/cli_scripts/*
+        export PATH=$PATH:~/cli_tools
+        chmod +x ~/cli_tools/*
 
 For usage instructions run:
     $ gpt.py --help

@@ -2,14 +2,15 @@
 
 # USAGE: 
 # $ wget https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/setup_joes_dev_environment.sh
-# $ bash setup_joes_dev_environment.sh
+# $ chmod +x ./setup_joes_dev_environment.sh
+# $ bash ./setup_joes_dev_environment.sh
 # $ rm setup_joes_dev_environment.sh
 
 set -e
 
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-    bc fzf htop tmux tree vim wget
+    bc fzf htop python-is-python3 tmux tree vim wget
 
 wget -O ~/.bash_aliases https://raw.githubusercontent.com/J-sephB-lt-n/my-personal-configs/main/.bash_aliases
 echo 'source ~/.bash_aliases' >> ~/.bashrc
