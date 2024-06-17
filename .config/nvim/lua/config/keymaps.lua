@@ -2,6 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- new HTML document boilerplate
 local function init_html_new()
   local lines = {
     "<!DOCTYPE html>",
@@ -22,10 +23,40 @@ local function init_html_new()
     "</body>",
     "</html>",
   }
-  -- Get the current buffer
   local buf = vim.api.nvim_get_current_buf()
-  -- Insert lines at the start of the buffer
   vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
 end
--- Create the Neovim command that calls the Lua function
 vim.api.nvim_create_user_command("InitHtmlNew", init_html_new, {})
+
+local function python_native_csv_reader()
+  local lines = {
+    "import csv",
+    'with open("temp.csv", "r", encoding="utf-8") as file:',
+    "\tcsv_reader = csv.DictReader(file)",
+    "for row in csv_reader:",
+    "\tprint(row)",
+  }
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+end
+vim.api.nvim_create_user_command("InitPythonCsvReader", python_native_csv_reader, {})
+
+local function python_native_csv_writer()
+  local lines = {
+    "import csv",
+    'with open("temp.csv", mode="w", encoding="utf-8") as file:',
+    "\tcsv_writer = csv.DictWriter(",
+    "\t\tfile,",
+    '\t\tfieldnames=["name", "surname"],',
+    '\t\tdelimiter=",",',
+    "\t\tquotechar='\"',",
+    "\t\tquoting=csv.QUOTE_MINIMAL,",
+    "\t)",
+    "\tcsv_writer.writeheader()",
+    '\tcsv_writer.writerow({"name": "abraham", "surname": "lincoln"})',
+    '\tcsv_writer.writerow({"name": "oscar", "surname": "peterson"})',
+  }
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+end
+vim.api.nvim_create_user_command("InitPythonCsvWriter", python_native_csv_writer, {})
