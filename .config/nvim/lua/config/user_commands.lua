@@ -19,7 +19,8 @@ local function init_html_new()
     "</html>",
   }
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
 end
 vim.api.nvim_create_user_command("InitHtmlNew", init_html_new, {})
 
@@ -28,11 +29,12 @@ local function python_native_csv_reader()
     "import csv",
     'with open("temp.csv", "r", encoding="utf-8") as file:',
     "\tcsv_reader = csv.DictReader(file)",
-    "for row in csv_reader:",
-    "\tprint(row)",
+    "\tfor row in csv_reader:",
+    "\t\tprint(row)",
   }
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
 end
 vim.api.nvim_create_user_command("InitPythonCsvReader", python_native_csv_reader, {})
 
@@ -52,7 +54,10 @@ local function python_native_csv_writer()
     '\tcsv_writer.writerow({"name": "oscar", "surname": "peterson"})',
   }
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
+  -- local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  -- vim.api.nvim_buf_set_lines(0, row - 1, row - 1, true, lines)
 end
 vim.api.nvim_create_user_command("InitPythonCsvWriter", python_native_csv_writer, {})
 
@@ -75,11 +80,12 @@ local function python_argparse()
     '\tdefault="plain",',
     '\tchoices=["plain","retro","dark"],',
     "\trequired=True,",
-    "\ttype=str",
+    "\ttype=str,",
     ")",
     "args = arg_parser.parse_args()",
   }
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
 end
 vim.api.nvim_create_user_command("InitPythonArgparse", python_argparse, {})
