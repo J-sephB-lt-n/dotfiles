@@ -20,7 +20,9 @@ alias trpd="tmux resize-pane -D"
 alias trpl="tmux resize-pane -L"
 alias trpr="tmux resize-pane -R"
 
+# -- PYTHON --
 alias lmsys="python -m webbrowser https://chat.lmsys.org/"
+alias svba='source venv/bin/activate'
 
 timer() {
 	# example usage: timer && sleep 5 && timer
