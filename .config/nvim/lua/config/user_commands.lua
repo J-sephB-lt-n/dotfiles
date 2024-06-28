@@ -29,8 +29,16 @@ local function python_native_csv_reader()
     "import csv",
     'with open("temp.csv", "r", encoding="utf-8") as file:',
     "\tcsv_reader = csv.DictReader(file)",
-    "\tfor row in csv_reader:",
-    "\t\tprint(row)",
+    "\ttype_map = {",
+    '\t\t"dataset": str,',
+    '\t\t"time": int,',
+    '\t\t"group": str,',
+    '\t\t"amount": int,',
+    "\t}",
+    "\tdata = [",
+    "\t\t{colname: type_map[colname](value) for colname, value in row.items()}",
+    "\t\tfor row in csv_reader",
+    "\t]",
   }
   local buf = vim.api.nvim_get_current_buf()
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
