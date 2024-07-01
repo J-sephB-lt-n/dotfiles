@@ -21,7 +21,8 @@ alias trpl="tmux resize-pane -L"
 alias trpr="tmux resize-pane -R"
 
 # -- PYTHON --
-alias lmsys="python -m webbrowser https://chat.lmsys.org/"
+alias lmsys='python -m webbrowser https://chat.lmsys.org/'
+alias pmvv='python -m venv venv'
 alias svba='source venv/bin/activate'
 
 timer() {
@@ -47,12 +48,12 @@ alias xpod="kubectl get pods --all-namespaces --no-headers | fzf | awk '{print \
 alias xf="find . -type f -not -path '*/venv/*' -not -path '*/*cache*/*' -not -path '*/\.*/*' | xargs du -sh | sort -hr | fzf --preview 'cat {2}' --bind 'enter:become(echo {2})' | xargs -o vim"
 
 # tree view of current folder (and subfolders) excluding clutter #
-alias ct="tree -a -I __pycache__ -I venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache"
-alias clct="clear && ct"
+alias ct='tree -a -I __pycache__ -I venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache'
+alias clct='clear && ct'
 alias clctl="clear && ct | less"
 
 # clean recursive grep (ignores certain folders) #
-alias crg="grep -rI --exclude-dir venv --exclude-dir __pycache__ --exclude-dir node_modules --exclude-dir .mypy_cache"
+alias crg='grep -rI --exclude-dir venv --exclude-dir __pycache__ --exclude-dir node_modules --exclude-dir .mypy_cache'
 
 # quick navigation
 alias ..="cd .."
@@ -108,7 +109,7 @@ rm_setdir() {
 	fi
 }
 # see my public-facing IP address #
-alias myip="curl ipinfo.io/ip"
+alias myip='curl ipinfo.io/ip'
 
 # list files in Amazon S3 bucket
 lss3() {
