@@ -61,6 +61,7 @@ alias crg='grep -rI --exclude-dir venv --exclude-dir __pycache__ --exclude-dir n
 alias ..="cd .."
 alias ...="cd ../.."
 alias cl="clear"
+alias cll="clear && ls -lah"
 std() {
   # save directory path to remember (under custom name)
   if [[ "$TERM" =~ "screen".* ]]; then
