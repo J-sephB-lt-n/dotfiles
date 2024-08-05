@@ -3,11 +3,11 @@
 A CLI interface to openAI models
 
 To make this script available everywhere:
-    1. Put this script into ~/cli_tools/gpt.py
+    1. Put this script into ~/cli_scripts/gpt.py
     2. Add the following lines to the bottom of your run commands file
         (e.g. .bashrc or .zshrc):
-        export PATH=$PATH:~/cli_tools
-        chmod +x ~/cli_tools/*
+        export PATH=$PATH:~/cli_scripts
+        chmod +x ~/cli_scripts/*
 
 For usage instructions run:
     $ gpt.py --help
@@ -16,6 +16,7 @@ For usage instructions run:
 import argparse
 
 import openai
+import tiktoken
 
 arg_parser = argparse.ArgumentParser(
     description="A CLI interface to openAI models",
@@ -71,6 +72,8 @@ TEMPERATURE:        {args.temperature}
     """
     )
 
+tokenizer = tiktoken.encoding_for_model(args.model_name)
+
 openai_client = openai.OpenAI()
 llm_chat = openai_client.chat.completions.create(
     model=args.model_name,
@@ -78,4 +81,13 @@ llm_chat = openai_client.chat.completions.create(
     max_tokens=args.max_output_tokens,
     messages=[{"role": "user", "content": args.prompt}],
 )
-print(llm_chat.choices[0].message.content)
+llm_response: str = llm_chat.choices[0].message.content
+
+print(llm_response)
+print(
+    f"""
+Model:              {llm_chat.model}
+n input tokens:     {len( tokenizer.encode(args.prompt) ):,}
+n output tokens:    {len( tokenizer.encode(llm_response) ):,} 
+"""
+)
