@@ -53,24 +53,7 @@ arg_parser.add_argument(
     type=float,
     default=0.0,
 )
-arg_parser.add_argument(
-    "-v",
-    "--verbose",
-    help="Display process information to the screen",
-    required=False,
-    default=False,
-    action="store_true",
-)
 args = arg_parser.parse_args()
-if args.verbose:
-    print(
-        f"""
-PROMPT:             {args.prompt}
-MODEL_NAME:         {args.model_name}
-MAX_OUTPUT_TOKENS:  {args.max_output_tokens}
-TEMPERATURE:        {args.temperature}
-    """
-    )
 
 tokenizer = tiktoken.encoding_for_model(args.model_name)
 
