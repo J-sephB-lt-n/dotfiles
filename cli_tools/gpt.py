@@ -14,6 +14,7 @@ For usage instructions run:
 """
 
 import argparse
+import time
 
 import openai
 import tiktoken
@@ -58,12 +59,15 @@ args = arg_parser.parse_args()
 tokenizer = tiktoken.encoding_for_model(args.model_name)
 
 openai_client = openai.OpenAI()
+inference_start_time: float = time.perf_counter()
 llm_chat = openai_client.chat.completions.create(
     model=args.model_name,
     temperature=args.temperature,
     max_tokens=args.max_output_tokens,
     messages=[{"role": "user", "content": args.prompt}],
 )
+inference_end_time: float = time.perf_counter()
+total_inference_time_seconds: float = inference_end_time - inference_start_time
 llm_response: str = llm_chat.choices[0].message.content
 
 print(llm_response)
@@ -72,5 +76,6 @@ print(
 Model:              {llm_chat.model}
 n input tokens:     {len( tokenizer.encode(args.prompt) ):,}
 n output tokens:    {len( tokenizer.encode(llm_response) ):,} 
+Inference time:     {total_inference_time_seconds:,.2f} seconds
 """
 )
