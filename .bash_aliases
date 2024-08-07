@@ -26,6 +26,7 @@ alias pwdp='cd "$(pbpaste)"'
 alias lmsys='python -m webbrowser https://chat.lmsys.org/'
 alias pmvv='python -m venv venv'
 alias svba='source venv/bin/activate'
+alias psp='python -m venv venv && source venv/bin/activate && pip install -r requirements.txt'
 
 timer() {
   # example usage: timer && sleep 5 && timer
