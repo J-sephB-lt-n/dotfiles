@@ -290,3 +290,13 @@ tmr_delete() {
     echo "deleted timer [$1]"
   fi
 }
+
+convert_all_to_mp4() {
+  # convert all files in specified directory to .mp4 using ffmpeg
+  for file in "$1"/*; do
+    filename="${file%.*}"
+    ffmpeg -i "$file" "${filename}.mp4"
+
+    echo "Converted $file to ${filename}.mp4"
+  done
+}
