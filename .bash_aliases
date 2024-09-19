@@ -127,7 +127,7 @@ lss3() {
 # make file overwriting less likely
 alias cp="cp -iv"
 alias mv="mv -iv"
-alias rm="rm -v"
+alias rmv="rm -v"
 alias mkd="mkdir -pv"
 
 # git aliases #
