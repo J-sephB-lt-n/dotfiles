@@ -3,19 +3,19 @@ local function init_html_new()
     "<!DOCTYPE html>",
     '<html lang="en">',
     "<head>",
-    '<meta charset="UTF-8">',
-    'meta name="viewport" content="width=device-width, initial-scale=1.0">',
-    '<meta http-equiv="X-UA-Compatible" content="ie=edge">',
-    "<title>This title appears in browser title bar and in search results</title>",
-    '<link rel="stylesheet" href="./style.css">',
-    '<link rel="icon" href="./favicon.ico" type="image/x-icon">',
+    '\t<meta charset="UTF-8">',
+    '\t<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+    '\t<meta http-equiv="X-UA-Compatible" content="ie=edge">',
+    "\t<title>This title appears in browser title bar and in search results</title>",
+    '\t<link rel="stylesheet" href="./style.css">',
+    '\t<link rel="icon" href="./favicon.ico" type="image/x-icon">',
     "</head>",
     "<body>",
-    "<main>",
-    "<h1>Welcome to My Website</h1>  ",
-    "</main>",
-    '<script src="index.js"></script>',
     "</body>",
+    "<footer>",
+    "\t<p>&copy; 2069 Joe&apos;s website</p>",
+    "</footer>",
+    '<script src="index.js"></script>',
     "</html>",
   }
   local buf = vim.api.nvim_get_current_buf()
@@ -97,3 +97,21 @@ local function python_argparse()
   vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
 end
 vim.api.nvim_create_user_command("InitPythonArgparse", python_argparse, {})
+
+local function init_python_logger()
+  local lines = {
+    "import logging",
+    "",
+    "# set up python logger #",
+    "logging.basicConfig(",
+    "\tlevel=logging.INFO,",
+    '\tformat="%(asctime)s - %(name)s - %(levelname)s - %(message)s",',
+    '\thandlers=[logging.FileHandler("info.log"), logging.StreamHandler()],',
+    ")",
+    "logger = logging.getLogger(__name__)",
+  }
+  local buf = vim.api.nvim_get_current_buf()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(buf, row, row, false, lines)
+end
+vim.api.nvim_create_user_command("InitPythonLogger", init_python_logger, {})
