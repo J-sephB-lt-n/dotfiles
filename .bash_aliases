@@ -51,7 +51,7 @@ alias xpod="kubectl get pods --all-namespaces --no-headers | fzf | awk '{print \
 alias xf="find . -type f -not -path '*/venv/*' -not -path '*/*cache*/*' -not -path '*/\.*/*' | xargs du -sh | sort -hr | fzf --preview 'cat {2}' --bind 'enter:become(echo {2})' | xargs -o vim"
 
 # tree view of current folder (and subfolders) excluding clutter #
-alias ct='tree -a -I __pycache__ -I venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache'
+alias ct='tree -a -I __pycache__ -I venv -I .venv -I node_modules -I .mypy_cache -I .git -I .pytest_cache -I uv.lock'
 alias clct='clear && ct'
 alias clctl="clear && ct | less"
 
