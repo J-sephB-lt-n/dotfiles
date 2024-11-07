@@ -1,0 +1,12 @@
+# I am using git-bash as my shell because I'm on a windows laptop and 
+# my corporate proxy blocks the WSL NAT
+# My ~/.bashrc contains 'source ~/.gitbash_aliases' to source these aliases and functions 
+
+# screen management # 
+alias cl='clear'
+alias clct='clear && cmd //c tree'
+
+# navigation #
+alias ..='cd ..'
+alias ...='cd ../..'
+alias tree='cmd //c tree'
