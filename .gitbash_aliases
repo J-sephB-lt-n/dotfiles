@@ -2,11 +2,44 @@
 # my corporate proxy blocks the WSL NAT
 # My ~/.bashrc contains 'source ~/.gitbash_aliases' to source these aliases and functions 
 
-# screen management # 
-alias cl='clear'
-alias clct='clear && cmd //c tree'
+# file management #
+rmaf() {
+  # delete all instances of file with this name (also looks in all subdirectories)
+  find . -type f -name "${1}" -exec rm -f '{}' +
+}
+rmad() {
+  # delete all instances of directory with this name (also looks in all subdirectories)
+  find . -type d -name "${1}" -exec rm -rf {} \;
+}
+
+# git # 
+alias czc='cz commit'
+alias ga="git add"
+alias ga.="git add ."
+alias gb="git branch"
+alias gch="git checkout"
+alias gd="git diff"
+alias gdn="git diff --name-only"
+alias gp="git push"
+alias gpom="git pull origin main --no-rebase"
+alias grs="git restore --staged"
+alias grs.="git restore --staged ."
+alias gst="git status"
 
 # navigation #
 alias ..='cd ..'
 alias ...='cd ../..'
+alias ll='ls -lah'
+alias lls="ls -lahS"
 alias tree='cmd //c tree'
+
+# screen management # 
+alias cl='clear'
+alias cll="clear && ls -lah"
+alias clct='clear && cmd //c tree //f //a'
+
+# python uv #
+alias uvrn='uv run --no-project'
+alias uvrn3.10='uv run --no-project --python 3.10'
+alias uvrn3.11='uv run --no-project --python 3.11'
+alias uvrn3.12='uv run --no-project --python 3.12'
