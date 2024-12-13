@@ -27,6 +27,9 @@ alias grs="git restore --staged"
 alias grs.="git restore --staged ."
 alias gst="git status"
 
+# code linting # 
+alias poetry_run_pylint_recursive='poetry run pylint --rcfile .pylintrc --recursive=y .'
+
 # navigation #
 alias ..='cd ..'
 alias ...='cd ../..'
