@@ -1,3 +1,4 @@
+-- make these available by adding `require("config.user_commands")` to nvim/init.lua
 local function init_html_new()
   local lines = {
     "<!DOCTYPE html>",
